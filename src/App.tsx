@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CLOUDS, shuffled, type Cloud, type Question } from './questions.ts';
 
 interface Result {
@@ -16,6 +16,13 @@ export function App() {
   const [result, setResult] = useState<Result | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
+  const resultRef = useRef<HTMLElement>(null);
+
+  // 出題の一覧が長いので、押した結果が画面外に出ないところまで引き寄せる。
+  // nearest なので、すでに見えている画面幅では動かない。
+  useEffect(() => {
+    if (current) resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [current]);
 
   async function ask(question: Question) {
     if (pending) return;
@@ -55,23 +62,8 @@ export function App() {
       </header>
 
       <main className="wrap">
-        <h2>機能名を選ぶ</h2>
-        <div className="chips">
-          {questions.map((question) => (
-            <button
-              key={question.name}
-              type="button"
-              className={`chip${current?.name === question.name ? ' on' : ''}`}
-              onClick={() => ask(question)}
-              disabled={pending}
-            >
-              {question.name}
-            </button>
-          ))}
-        </div>
-
         {current && (
-          <section className="result" aria-live="polite">
+          <section className="result" ref={resultRef} aria-live="polite">
             <div className="result-head">
               <span className="picked">{current.name}</span>
               {result && (
@@ -114,6 +106,21 @@ export function App() {
             )}
           </section>
         )}
+
+        <h2>機能名を選ぶ</h2>
+        <div className="chips">
+          {questions.map((question) => (
+            <button
+              key={question.name}
+              type="button"
+              className={`chip${current?.name === question.name ? ' on' : ''}`}
+              onClick={() => ask(question)}
+              disabled={pending}
+            >
+              {question.name}
+            </button>
+          ))}
+        </div>
       </main>
     </>
   );

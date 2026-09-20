@@ -7,12 +7,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "serve": "npm run build && node server/server.mjs",
+    "serve": "npm run build && node --env-file-if-exists=.env server/server.mjs",
     "infra:synth": "cdkd synth",
     "infra:diff": "cdkd diff",
     "infra:dry-run": "cdkd deploy --all --dry-run",
     "infra:deploy": "cdkd deploy --full-wait",
-    "infra:local": "cdkd local start-cloudfront JevClassifier/Distribution --watch --port 8080"
+    "infra:local": "cdkd local start-cloudfront JevClassifier/Distribution --watch --port 8080",
+    "serve:only": "node --env-file-if-exists=.env server/server.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-ssm": "^3.1063.0",
