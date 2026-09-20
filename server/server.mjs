@@ -11,10 +11,14 @@ const MIME = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
   '.ico': 'image/x-icon',
+  '.jpeg': 'image/jpeg',
+  '.jpg': 'image/jpeg',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
+  '.txt': 'text/plain; charset=utf-8',
+  '.webp': 'image/webp',
 };
 
 const CRITERIA = {
@@ -115,9 +119,13 @@ function sendFile(requestPath, response) {
     : join(root, 'index.html');
   response.statusCode = 200;
   response.setHeader('Content-Type', MIME[extname(filePath)] || 'application/octet-stream');
+  // immutable を付けてよいのは Vite がハッシュを付けた /assets/ だけ。OGP画像やファビコンへ
+  // 付けると「永久に変わらない」宣言になり、差し替えてもクローラーが取りに来なくなる。
   response.setHeader(
     'Cache-Control',
-    filePath.endsWith('index.html') ? 'no-cache, no-store, must-revalidate' : 'public, max-age=31536000, immutable',
+    filePath.endsWith('index.html') ? 'no-cache, no-store, must-revalidate'
+      : filePath.includes('/assets/') ? 'public, max-age=31536000, immutable'
+      : 'public, max-age=3600',
   );
   createReadStream(filePath).pipe(response);
 }
