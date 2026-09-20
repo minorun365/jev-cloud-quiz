@@ -1,0 +1,260 @@
+:root {
+  --blue-deep: #0e0d6a;
+  --blue: #0a4695;
+  --blue-bright: #0aa0dc;
+  --blue-soft: #eaf2fb;
+  --blue-line: #cfe0f2;
+  --blue-grad: linear-gradient(135deg, #0e0d6a 0%, #0a4695 45%, #0862aa 68%, #01b6ec 100%);
+  --ink: #15151a;
+  --sub: #4a4a54;
+  --mut: #767680;
+  --line: #e8e8ee;
+  --soft: #f7f8fa;
+  --gold-deep: #8a5a00;
+  --gold-soft: #fdf5e0;
+  --hit: #1a6b38;
+  --miss: #8a3a3a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  color: var(--ink);
+  line-height: 1.8;
+  font-size: 15.5px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  font-feature-settings: 'palt' 1;
+}
+
+.hero {
+  background: var(--blue-grad);
+  padding: calc(34px + env(safe-area-inset-top, 0px)) 0 30px;
+}
+
+.hero,
+.hero * {
+  color: #fff;
+}
+
+.hero-in {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 max(20px, env(safe-area-inset-left));
+}
+
+.hero h1 {
+  font-size: 26px;
+  line-height: 1.35;
+  margin: 0 0 8px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.88;
+}
+
+.wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 30px max(20px, env(safe-area-inset-left)) 60px;
+}
+
+h2 {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  color: var(--mut);
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--blue-line);
+  background: var(--blue-soft);
+  color: var(--blue);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.chip:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(14, 13, 106, 0.12);
+}
+
+.chip:disabled {
+  cursor: default;
+}
+
+.chip.on {
+  background-image: var(--blue-grad);
+  border-color: transparent;
+  color: #fff;
+}
+
+.result {
+  margin: 30px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 22px 22px;
+  background: #fff;
+}
+
+.result-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.picked {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--blue-deep);
+}
+
+.verdict {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 11px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.verdict.hit {
+  background: #f0faf3;
+  color: var(--hit);
+}
+
+.verdict.miss {
+  background: #fdf4f4;
+  color: var(--miss);
+}
+
+.waiting,
+.error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--mut);
+}
+
+.error {
+  color: var(--miss);
+}
+
+.bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bars li {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr) 42px;
+  align-items: center;
+  gap: 10px;
+  margin: 9px 0;
+}
+
+.bar-label {
+  font-size: 13px;
+  color: var(--sub);
+}
+
+.track {
+  height: 15px;
+  border-radius: 8px;
+  background: #f2f3f6;
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: 8px;
+  background: var(--blue-line);
+  transition: width 0.35s ease;
+}
+
+.fill.top {
+  background-image: var(--blue-grad);
+}
+
+.value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--mut);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.bars li:first-child .value {
+  color: var(--blue-deep);
+}
+
+.timing {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--mut);
+}
+
+.timing b {
+  font-size: 14px;
+  color: var(--gold-deep);
+  background: var(--gold-soft);
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.timing .model {
+  margin-left: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+
+@media (max-width: 620px) {
+  .hero h1 {
+    font-size: 21px;
+  }
+  .bars li {
+    grid-template-columns: 70px minmax(0, 1fr) 38px;
+    gap: 8px;
+  }
+  .timing .model {
+    margin-left: 0;
+  }
+}
