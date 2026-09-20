@@ -72,26 +72,14 @@ function json(response, status, body) {
   response.end(JSON.stringify(body));
 }
 
-async function readBody(request) {
-  const chunks = [];
-  for await (const chunk of request) chunks.push(chunk);
-  return Buffer.concat(chunks).toString('utf8');
-}
-
-async function classify(request, response) {
+async function classify(request, response, url) {
   const ip = String(request.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'local';
   if (overLimit(ip)) {
     json(response, 429, { error: '短い時間に呼びすぎです。少し待ってからどうぞ' });
     return;
   }
 
-  let name;
-  try {
-    name = JSON.parse(await readBody(request)).name;
-  } catch {
-    json(response, 400, { error: 'リクエストのJSONが読めません' });
-    return;
-  }
+  const name = url.searchParams.get('name');
   if (typeof name !== 'string' || !name.trim() || name.length > 80) {
     json(response, 400, { error: 'name が不正です' });
     return;
@@ -141,11 +129,11 @@ createServer((request, response) => {
     return;
   }
   if (url.pathname === '/api/classify') {
-    if (request.method !== 'POST') {
-      json(response, 405, { error: 'POST で呼んでください' });
+    if (request.method !== 'GET') {
+      json(response, 405, { error: 'GET で呼んでください' });
       return;
     }
-    classify(request, response);
+    classify(request, response, url);
     return;
   }
   sendFile(url.pathname === '/' ? '/index.html' : url.pathname, response);

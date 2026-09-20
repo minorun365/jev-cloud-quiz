@@ -77,7 +77,9 @@ export class AppStack extends cdk.Stack {
         'api/*': {
           origin,
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-          allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+          // 判定は GET で受ける。リクエストボディを送ると、OAC が Function URL へ付ける
+          // SigV4 署名にボディが含まれず「signature does not match」で弾かれる。
+          allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
           cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
           // Host を転送すると Function URL 側の署名検証が崩れる
           originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER_EXCEPT_HOST_HEADER,

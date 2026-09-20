@@ -32,11 +32,7 @@ export function App() {
     setPending(true);
     const startedAt = performance.now();
     try {
-      const response = await fetch('/api/classify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: question.name }),
-      });
+      const response = await fetch(`/api/classify?name=${encodeURIComponent(question.name)}`);
       const body = await response.json();
       if (!response.ok) throw new Error(body.error || '判定できませんでした');
       setResult({ ...body, totalMs: Math.round(performance.now() - startedAt) });
