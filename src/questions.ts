@@ -12,54 +12,52 @@ export const CLOUDS: { id: Cloud; label: string }[] = [
   { id: 'google_cloud', label: 'Google Cloud' },
 ];
 
-/** ブランド名がついた素直な出題 */
-const PLAIN: Question[] = [
-  { name: 'Amazon S3', answer: 'aws' },
-  { name: 'Amazon DynamoDB', answer: 'aws' },
-  { name: 'AWS Lambda', answer: 'aws' },
-  { name: 'Azure Blob Storage', answer: 'azure' },
-  { name: 'Azure Cosmos DB', answer: 'azure' },
-  { name: 'Azure Kubernetes Service', answer: 'azure' },
-  { name: 'Google Cloud Storage', answer: 'google_cloud' },
-  { name: 'Google Kubernetes Engine', answer: 'google_cloud' },
-  { name: 'Google BigQuery', answer: 'google_cloud' },
+// ブランド名（Amazon / AWS / Azure / Google）は外してある。
+// 三社で役割の似たものを揃えてあるので、名前だけでは判別しにくい。
+const AWS: string[] = [
+  'Lambda',
+  'S3',
+  'DynamoDB',
+  'Aurora',
+  'Fargate',
+  'EventBridge',
+  'Step Functions',
+  'Athena',
+  'CloudFront',
+  'AgentCore',
 ];
 
-/** ブランド名を外した出題。三社で似た名前が並ぶものを選んである */
-const TRICKY: Question[] = [
-  { name: 'Fargate', answer: 'aws' },
-  { name: 'Container Apps', answer: 'azure' },
-  { name: 'Cloud Run', answer: 'google_cloud' },
-  { name: 'EventBridge', answer: 'aws' },
-  { name: 'Event Grid', answer: 'azure' },
-  { name: 'Pub/Sub', answer: 'google_cloud' },
-  { name: 'Athena', answer: 'aws' },
-  { name: 'Synapse Analytics', answer: 'azure' },
-  { name: 'Looker', answer: 'google_cloud' },
-  { name: 'Step Functions', answer: 'aws' },
-  { name: 'Logic Apps', answer: 'azure' },
-  { name: 'Workflows', answer: 'google_cloud' },
-  { name: 'CloudFront', answer: 'aws' },
-  { name: 'Front Door', answer: 'azure' },
-  { name: 'Cloud CDN', answer: 'google_cloud' },
-  { name: 'Route 53', answer: 'aws' },
-  { name: 'Traffic Manager', answer: 'azure' },
-  { name: 'Cloud DNS', answer: 'google_cloud' },
-  { name: 'Cognito', answer: 'aws' },
-  { name: 'Entra ID', answer: 'azure' },
-  { name: 'Identity Platform', answer: 'google_cloud' },
-  { name: 'Aurora', answer: 'aws' },
-  { name: 'Cosmos DB', answer: 'azure' },
-  { name: 'Spanner', answer: 'google_cloud' },
-  { name: 'Bedrock', answer: 'aws' },
-  { name: 'AI Foundry', answer: 'azure' },
-  { name: 'Vertex AI', answer: 'google_cloud' },
-  { name: 'App Runner', answer: 'aws' },
-  { name: 'Fabric', answer: 'azure' },
-  { name: 'Firestore', answer: 'google_cloud' },
+const AZURE: string[] = [
+  'Blob Storage',
+  'Cosmos DB',
+  'Container Apps',
+  'Event Grid',
+  'Logic Apps',
+  'Synapse Analytics',
+  'Front Door',
+  'Entra ID',
+  'Fabric',
+  'Hosted Agent',
 ];
 
-export const QUESTIONS: Question[] = [...PLAIN, ...TRICKY];
+const GOOGLE: string[] = [
+  'Cloud Storage',
+  'Spanner',
+  'Firestore',
+  'Cloud Run',
+  'Pub/Sub',
+  'Workflows',
+  'BigQuery',
+  'Cloud CDN',
+  'Vertex AI',
+  'Agent Engine',
+];
+
+export const QUESTIONS: Question[] = [
+  ...AWS.map((name) => ({ name, answer: 'aws' as const })),
+  ...AZURE.map((name) => ({ name, answer: 'azure' as const })),
+  ...GOOGLE.map((name) => ({ name, answer: 'google_cloud' as const })),
+];
 
 export function shuffled(): Question[] {
   const list = [...QUESTIONS];
