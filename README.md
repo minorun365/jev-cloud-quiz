@@ -14,11 +14,7 @@ Jev は文章を生成せず、選択肢に対する確率分布を1回の並列
 
 ## 仕組み
 
-```
-ブラウザ → CloudFront → Lambda（Lambda Web Adapter）→ api.typesafe.ai
-                              ↑
-                      Parameter Store（API キー）
-```
+![アーキテクチャ](docs/architecture.png)
 
 API キーはブラウザへ渡らず、Lambda だけが持ちます。判定 API を置く Lambda は、Jev との往復を
 最短にするためオレゴン（us-west-2）で動かしています。画面そのものは CloudFront のエッジから届きます。
