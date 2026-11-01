@@ -22,7 +22,7 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@go-to-k/cdkd": "0.283.20",
+    "@go-to-k/cdkd": "0.290.33",
     "@types/node": "^24.10.9",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
